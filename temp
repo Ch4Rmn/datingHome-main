@@ -1,0 +1,7 @@
+  <div class="row">
+              <div class="col-md-4">
+                <div class="form-check form-check-inline" ng-repeat="hobby in hobbies">
+                  <input type="checkbox" ng-model="hobby.selected" name="hobby[]" id="hobby-{{hobby.id}}" class="form-check-input hobby" value="{{ hobby.id }}">
+                  <label for="hobby-{{hobby.id}}" class="form-check-label">{{ hobby.name }}</label>
+                </div>
+            </div>
