@@ -26,7 +26,7 @@
         }
     </style>
     <script>
-        var base_url = "http://localhost/datingHome/";
+        var base_url = "http://localhost/datingHome-main/";
     </script>
 </head>
 

@@ -3,15 +3,16 @@ app.controller("myCtrl", function ($scope, $http) {
   $scope.cities = [];
   $scope.hobbies = [];
   $scope.message = "";
+  $scope.data = {};
 
   $scope.name = "";
+  $scope.email = "";
   $scope.password = "";
   $scope.confirm_password = "";
-  $scope.email = "";
   $scope.phone = "";
-  $scope.hobby = "";
-  $scope.city = "";
   $scope.birthday = "";
+  // $scope.hobby.selected = "";
+  $scope.city = "";
   $scope.gender = "";
   $scope.education = "";
   $scope.about = "";
@@ -19,11 +20,43 @@ app.controller("myCtrl", function ($scope, $http) {
   $scope.heightInches = "";
   $scope.minAges = "";
   $scope.maxAges = "";
+  $scope.partner_gender = "";
+  // $scope.gender = $(".gender:checked").val() ;
+
   // $scope.minAge = 18;
   // $scope.maxAge = 55;
   $scope.partnerAge = [];
   $scope.userInfo = true;
   $scope.userPhoto = false;
+
+  //  $scope.username = "";
+  //  $scope.email = "";
+  //  $scope.password = "";
+  //  $scope.confirm_password = "";
+  //  $scope.phone = "";
+  //  $scope.birthday = "";
+  //  $scope.city = "";
+  //  $scope.hfeet = "";
+  //  $scope.hinches = "";
+  //  $scope.gender = "";
+  //  $scope.education = "";
+  //  $scope.about = "";
+  //  $scope.selected_hobbies = [];
+  //  $scope.partner_gender = "";
+  //  $scope.min_age = "";
+  //  $scope.max_age = "";
+  //  $scope.religion = "";
+  //  $scope.work = "";
+  //  $scope.data = {};
+  //  $scope.process_error = false;
+  //  $scope.user_info = true;
+  //  $scope.user_photo = false;
+  //  $scope.emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //  $scope.passwordRegex =
+  //    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]*$/;
+  //  $scope.dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  //  $scope.min_ages = [];
+  //  $scope.max_ages = [];
 
   // error
   $scope.process_error = false;
@@ -167,6 +200,7 @@ app.controller("myCtrl", function ($scope, $http) {
     const city = $("#city").val();
     const email = $("#email").val();
     const hobby = $("#hobby").val();
+
     // console.log(name);
     if (name == "") {
       // console.log('hello');
@@ -209,6 +243,7 @@ app.controller("myCtrl", function ($scope, $http) {
       $scope.error_city_message = error_messages.a001 + "city";
     }
     if ($scope.process_error == false) {
+      // when process error false get data then send data
       $scope.data = {};
       let data = {};
       let hobbies = [];
@@ -222,21 +257,30 @@ app.controller("myCtrl", function ($scope, $http) {
       data.about = $("#about").val();
       data.city = $("#city").val();
       data.gender = $(".gender:checked").val();
-      // data.gender = $(".gender:checked").val();
-      // data.hobbies = $("#hobby").val();
+      data.heightFeet = $("#heightFeet").val();
+      data.heightInches = $("#heightInches").val();
 
       // select option
       data.partner_gender = $(".partner_gender:checked").val();
       data.minAges = $("#minAges").val();
       data.maxAges = $("#maxAges").val();
 
+      // data.email_confirm_code = getEmailConfirmCode();
+
+      // data.partner_gender = $("")
+      // data.apple = "apple";
+      // data.gender = $(".gender:checked").val();
+      // data.hobbies = $("#hobby").val();
+
       // array checkbox
-      console.log($(".hobby:checked").length); // Check the number of checked checkboxes
+      // console.log($(".hobby:checked").length);
+      // Check the number of checked checkboxes
       $(".hobby:checked").each(function () {
         // console.log($(this).val()); // Log each checkbox value
         hobbies.push($(this).val());
       });
-      console.log(hobbies); // Log the hobbies array after populating it
+      // console.log(hobbies);
+      // Log the hobbies array after populating it
 
       // $(".hobby:checked").each(function () {
       //   hobbies.push($(this).val());
@@ -245,7 +289,7 @@ app.controller("myCtrl", function ($scope, $http) {
       $scope.data = data;
       $scope.userInfo = false;
       $scope.userPhoto = true;
-      console.log(data);
+      // console.log($scope.data, "hello");
       // console.log(data.name);
       // alert($scope.error_password_message);
       // $("#my-form").submit();
@@ -255,8 +299,49 @@ app.controller("myCtrl", function ($scope, $http) {
   };
 
   $scope.formSub = function () {
-    $("#formSubmit").click();
+    // alert("sadasd");
+
+    // alert("data");
+    // console.log($scope.data, "hello");
+
+    const req_url3 = "http://localhost/datingHome-main/api/RegisterMember.php";
+
+    const headers = {
+      Accept: "application/json", // Example Accept header
+      "Content-Type": "application/json", // Example Content-Type header
+      // Add more headers as needed
+    };
+
+    $http({
+      method: "POST",
+      url: req_url3,
+      headers: headers, // Include headers in the request
+      data: $scope.data,
+    })
+      .then(function (response) {
+        console.log(response);
+        if (response.data.status == 200) {
+          $("#member_id").val(response.data.member_id);
+          $("#formSubmit").submit();
+          // $("#formSubmit").submit();
+        } else {
+          alert(error_messages.a004);
+        }
+        // console in browser
+      })
+      .catch(function (error) {
+        console.error("Error is custom:", error);
+      });
   };
+  //   if (response.data.status == 200) {
+  //     console.log(response.data);
+  //   } else {
+  //     alert(error_messages.a004);
+  //   }
+  // })
+  // .catch(function (error) {
+  //   console.error("Error is custom:", error);
+  // });
 
   $scope.upload1 = function () {
     $("#uploaD1").click();
@@ -281,6 +366,4 @@ app.controller("myCtrl", function ($scope, $http) {
   $scope.upload6 = function () {
     $("#uploaD6").click();
   };
-
-  // $("#my-form").submit();
 });
