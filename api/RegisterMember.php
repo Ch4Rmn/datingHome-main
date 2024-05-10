@@ -88,8 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $mysqli->query($sql);
     }
     // echo "insert id is " . $insert_id;
-        $response['member_id'] = $insert_id;
-        $response['status'] = 200;
+    $response['member_id'] = $insert_id;
+    $response['status'] = 200;
     // if ($query) {
     //     $url = "http://localhost/datingHome-main/admin-backend/loginMember.php";
     //     header("Refresh:0;url=$url");
